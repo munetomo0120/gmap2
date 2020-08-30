@@ -1,3 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @post.name
+%p
+  %b Description:
+  = @post.description
+%p
+  %b Latitude:
+  = @post.latitude
+%p
+  %b Longitude:
+  = @post.longitude
+
+= link_to 'Edit', edit_post_path(@post)
+\|
+= link_to 'Back', posts_path
 %div{:style => "width: 100%;"}
   #map{:style => "width: 100%; height: 100vh;"}
 

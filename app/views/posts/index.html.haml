@@ -1,0 +1,43 @@
+%h1 Listing posts
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Description
+      %th Latitude
+      %th Longitude
+      %th
+      %th
+      %th
+
+  %tbody
+    - @posts.each do |post|
+      %tr
+        %td= post.name
+        %td= post.description
+        %td= post.latitude
+        %td= post.longitude
+        %td= link_to 'Show', post
+        %td= link_to 'Edit', edit_post_path(post)
+        %td= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Post', new_post_path
+%div{:style => "width: 100%;"}
+  #map{:style => "width: 100%; height: 100vh;"}
+
+:javascript
+  handler = Gmaps.build('Google');
+  handler.buildMap({ 
+    provider: {mapTypeId: 'hybrid'},
+    internal: {id: 'map'}
+    }, 
+    function(){
+    markers = handler.addMarkers(#{raw @hash.to_json})
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+    handler.getMap().setCenter(new google.maps.LatLng(35.681298, 139.7640582));
+    handler.getMap().setZoom(4);
+  });
